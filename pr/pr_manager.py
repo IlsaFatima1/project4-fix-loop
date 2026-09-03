@@ -21,7 +21,7 @@ def main():
     os.makedirs(PR_DIR, exist_ok=True)
 
     if verdict != "PASS":
-        print(f"❌ No PR: reviewer verdict is {verdict}, not PASS. Aborting.")
+        print(f"[X] No PR: reviewer verdict is {verdict}, not PASS. Aborting.")
         sys.exit(1)
 
     # Gather the diff to embed in the PR record.
@@ -41,7 +41,7 @@ def main():
     with open(path, "w") as f:
         f.write("---\ntitle: " + title + "\nstate: open\n---\n\n" + body)
 
-    print(f"✅ PR created: {path}")
+    print(f"[OK] PR created: {path}")
     print(body)
 
 

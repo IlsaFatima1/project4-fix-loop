@@ -86,7 +86,7 @@ def main():
     print("\n[5] Run my own independent edge-case checks against the real code")
     ev_file = os.path.join(worktree, "_reviewer_edges.py")
     with open(ev_file, "w") as f:
-        f.write(EVALUATION_PY.format(worktree=worktree.replace("\\", "/")))
+        f.write(EVALUATION_PY.replace("{worktree}", worktree.replace("\\", "/")))
     er = subprocess.run([sys.executable, ev_file], cwd=worktree,
                         capture_output=True, text=True)
     print(er.stdout.strip())
@@ -96,16 +96,25 @@ def main():
     os.remove(ev_file)
 
     print("\n[6] Verify the original bug is actually gone (not merely masked)")
-    # Look for the original broken pattern `return price + quantity`
+    # Look for the actual broken return statement (not docstring mentions).
+    import re
     src = open(os.path.join(worktree, "src", "calculator.py")).read()
-    if "price + quantity" in src:
-        reasons.append("The original broken return (price + quantity) is still present.")
+    broken_return = re.search(r'\breturn\s+price\s*\+\s*quantity\b', src)
+    if broken_return:
+        reasons.append("The original broken return statement "
+                       "'return price + quantity' is still present.")
+
+    # The fix must actually multiply; a hardcoded/conditional result is not a real fix.
+    if not re.search(r'\breturn\s+price\s*\*\s*quantity\b', src):
+        reasons.append("The fix does not actually multiply price * quantity "
+                       "(it appears to special-case results instead).")
 
     print("\n" + "=" * 50)
     if not reasons:
         print("Result: PASS")
         print("Reasons: the fix is correct; the project test suite passes;")
         print("my independent edge cases pass; the original bug is gone.")
+        _cleanup_worktree(worktree)
         sys.exit(0)
     else:
         print("Result: FAIL")
@@ -113,7 +122,13 @@ def main():
         for reason in reasons:
             print(f"- {reason}")
         print("\nDecision: FAIL")
+        _cleanup_worktree(worktree)
         sys.exit(1)
+
+
+def _cleanup_worktree(worktree):
+    if os.path.exists(worktree):
+        sh(["git", "worktree", "remove", "--force", worktree], check=False)
 
 
 if __name__ == "__main__":

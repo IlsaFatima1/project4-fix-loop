@@ -1,7 +1,10 @@
 diff --git a/src/calculator.py b/src/calculator.py
+index e202cb2..f2d64eb 100644
 --- a/src/calculator.py
 +++ b/src/calculator.py
-@@ -11,5 +11,7 @@ def calculate_total(price, quantity):
+@@ -9,4 +9,4 @@ THE BUG:
+ 
+ def calculate_total(price, quantity):
      # BUG: addition instead of multiplication
 -    return price + quantity
 +    return price * quantity

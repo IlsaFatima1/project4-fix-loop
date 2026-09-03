@@ -53,7 +53,7 @@ def main():
     print("\n--- Results ---")
     pr_created = os.path.exists(PR_FILE)
     if verdict == "PASS" and pr_created:
-        print("GOOD FIX -> PASS -> PR CREATED ✓")
+        print("GOOD FIX -> PASS -> PR CREATED [OK]")
     else:
         print("ERROR: expected PASS and a PR for the good fix.")
         sys.exit(1)

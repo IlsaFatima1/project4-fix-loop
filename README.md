@@ -84,7 +84,7 @@ behavior and the tests must support the decision.
 ## PR rule
 
 `pr/pr_manager.py` opens a PR **only** when the reviewer returns `PASS`.
-On `FAIL` it prints `❌ No PR` and refuses. A PR record (a markdown file in
+On `FAIL` it prints `[X] No PR` and refuses. A PR record (a markdown file in
 `pull_requests/`) is written only for a `PASS`.
 
 ## Demonstrations
@@ -130,7 +130,7 @@ that "works"), and its independent edge cases fail. It returns `FAIL` with
 reasons, and `pr_manager` blocks the PR:
 
 ```text
-❌ No PR: reviewer verdict is FAIL, not PASS. Aborting.
+[X] No PR: reviewer verdict is FAIL, not PASS. Aborting.
 ```
 
 ## Example output (Case 2, reviewer)

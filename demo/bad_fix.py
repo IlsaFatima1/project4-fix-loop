@@ -56,7 +56,7 @@ def main():
     print("\n--- Results ---")
     pr_created = os.path.exists(PR_FILE)
     if verdict == "FAIL" and not pr_created:
-        print("BAD FIX -> FAIL -> NO PR (correctly blocked) ✓")
+        print("BAD FIX -> FAIL -> NO PR (correctly blocked) [OK]")
     else:
         print("ERROR: reviewer passed the bad fix or a PR was created.")
         print("Tighten the reviewer criteria and re-run.")
