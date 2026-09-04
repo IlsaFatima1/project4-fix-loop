@@ -9,4 +9,4 @@ THE BUG:
 
 def calculate_total(price, quantity):
     # BUG: addition instead of multiplication
-    return price + quantity
+    return price * quantity
